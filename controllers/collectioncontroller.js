@@ -33,8 +33,46 @@ router.post("/create", validateJWT, async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err });
     }
-})
+});
+/*=====Collection Get All=====*/
+router.get("/", async (req, res) => {
+    try {
+        const toy = await CollectionModel.findAll();
+        res.status(200).json(toy);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
 
-/*=====Collection Create=====*/
+/*=====Collection Get by Category=====*/
+router.get("/:category", async (req, res) => {
+    const { category } = req.params;
+    try {
+        const results = await CollectionModel.findAll({
+            where: { category: category }
+        });
+        res.status(200).json(results);
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
+/*=====Collection Delete Item=====*/
+router.delete("/delete/:id", validateJWT, async (req, res) => {
+    const adminUser = req.user.isAdmin;
+    const toyId = req.params.id;
+
+    try {
+        const query = {
+            where: {
+                id: toyId,
+                adminUser: true
+            }
+        };
+        await CollectionModel.destroy(query);
+        res.status(200).json({ message: "Item removed" });
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
 
 module.exports = router;
