@@ -9,6 +9,7 @@ app.use(Express.json());
 
 app.use("/collection", controllers.collectionController);
 app.use("/user", controllers.userController);
+app.use(require("./middleware/validate-jwt"));
 
 dbConnection.authenticate()
     .then(() => dbConnection.sync())
