@@ -9,14 +9,14 @@ router.get('/practice', validateJWT, (req, res) => {
 
 /*=====Collection Create=====*/
 router.post("/create", validateJWT, async (req, res) => {
-    const { item, description, category, imageFile, quantity, currentlyListed, 
+    const { item, description, category, image, quantity, currentlyListed, 
     listingId, year, manufacturer, quality, estimatedValue, listPrice } = req.body.collection;
     const { id } = req.user;
     const collectionEntry = {
         item,
         description,
         category,
-        imageFile,
+        image,
         quantity,
         currentlyListed,
         listingId,
